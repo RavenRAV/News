@@ -10,4 +10,6 @@ class RetrofitService {
     fun getApi():NewsApi{
         return retrofit.create(NewsApi::class.java)
     }
+
+
 }

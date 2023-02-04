@@ -9,7 +9,13 @@ interface NewsApi {
     @GET("everything")
     fun getNews(
         @Query("q") keyWord: String = "genshin",
-        @Query("key")key:String = "961c3285ffc644448bf40948cab27c56",
-        @Query("pageSize")pageSize:Int = 9
+        @Query("apiKey")apiKey:String = "961c3285ffc644448bf40948cab27c56"
+    ):Call<News>
+
+
+    @GET("top-headlines")
+    fun getTopHeadLines(
+        @Query("country") country: String,
+        @Query("apiKey")apiKey:String = "961c3285ffc644448bf40948cab27c56"
     ):Call<News>
 }

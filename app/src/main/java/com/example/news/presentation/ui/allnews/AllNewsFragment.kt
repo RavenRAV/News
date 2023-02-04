@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import com.example.news.App
 import com.example.news.Articles
 import com.example.news.News
+import com.example.news.data.network.NewsApi
 import com.example.news.databinding.FragmentAllNewsBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class AllNewsFragment : Fragment() {
 
@@ -36,6 +39,7 @@ class AllNewsFragment : Fragment() {
                 val adapter = NewsAdapter(it as ArrayList<Articles>)
                     binding.newsRv.adapter = adapter
                 }
+                Log.e("response", response.body().toString(), )
             }
 
             override fun onFailure(call: Call<News>, t: Throwable) {
@@ -44,9 +48,29 @@ class AllNewsFragment : Fragment() {
 
         })
 
+        newsApi.getTopHeadLines("ru")
+            .enqueue(object : Callback<News>{
+                override fun onResponse(call: Call<News>, response: Response<News>) {
+                    Log.e("tophead", response.body().toString(), )
+                }
+
+                override fun onFailure(call: Call<News>, t: Throwable) {
+                    Log.e("ololo2", "onFailure: ${t.message}")
+                }
+
+            })
+
+
 //        val adapter = NewsAdapter(data)
 //        binding.newsRv.adapter = adapter
 
+    }
+
+    private val newsApi by lazy {
+        Retrofit.Builder().baseUrl("https://newsapi.org/v2/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NewsApi::class.java)
     }
 
 }
