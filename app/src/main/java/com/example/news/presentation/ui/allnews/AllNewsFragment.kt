@@ -32,22 +32,22 @@ class AllNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        App.api.getNews().enqueue(object : Callback<News>{
-            override fun onResponse(call: Call<News>, response: Response<News>) {
-                response.body()?.articles?.let {
-                val adapter = NewsAdapter(it as ArrayList<Articles>)
-                    binding.newsRv.adapter = adapter
+        binding.newsBtn.setOnClickListener {
+            App.api.getNews(binding.newsSearchEt.text.toString()).enqueue(object : Callback<News>{
+                override fun onResponse(call: Call<News>, response: Response<News>) {
+                    response.body()?.articles?.let {
+                        val adapter = NewsAdapter(it as ArrayList<Articles>)
+                        binding.newsRv.adapter = adapter
+                    }
+                    Log.e("response", response.body().toString(), )
                 }
-                Log.e("response", response.body().toString(), )
-            }
 
-            override fun onFailure(call: Call<News>, t: Throwable) {
-                Log.e("ololo", "onFailure: ${t.message}")
-            }
+                override fun onFailure(call: Call<News>, t: Throwable) {
+                    Log.e("ololo", "onFailure: ${t.message}")
+                }
 
-        })
-
+            })
+        }
         newsApi.getTopHeadLines("ru")
             .enqueue(object : Callback<News>{
                 override fun onResponse(call: Call<News>, response: Response<News>) {
@@ -55,17 +55,10 @@ class AllNewsFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<News>, t: Throwable) {
-                    Log.e("ololo2", "onFailure: ${t.message}")
+                    Log.e("commit", "onFailure: ${t.message}")
                 }
-
             })
-
-
-//        val adapter = NewsAdapter(data)
-//        binding.newsRv.adapter = adapter
-
     }
-
     private val newsApi by lazy {
         Retrofit.Builder().baseUrl("https://newsapi.org/v2/")
             .addConverterFactory(GsonConverterFactory.create())

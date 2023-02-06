@@ -8,8 +8,9 @@ import retrofit2.http.Query
 interface NewsApi {
     @GET("everything")
     fun getNews(
-        @Query("q") keyWord: String = "genshin",
-        @Query("apiKey")apiKey:String = "961c3285ffc644448bf40948cab27c56"
+        @Query("q") keyWord: String,
+        @Query("language") language: String = "ru",
+        @Query("apiKey")apiKey:String = "961c3285ffc644448bf40948cab27c56",
     ):Call<News>
 
 
