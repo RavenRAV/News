@@ -22,6 +22,10 @@ class AllNewsFragment : Fragment() {
     private val data = arrayListOf<Articles>()
     private lateinit var binding: FragmentAllNewsBinding
 
+
+//Если не блины хочу сок
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
